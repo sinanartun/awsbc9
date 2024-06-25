@@ -13,12 +13,21 @@ logger.add(
     format="<level>{time:HH:mm:ss}</level> | <level>{level: <8}</level>:{line} | <level>{message}</level>",
     level="DEBUG"
 )
-common_regions = ['us-east-1', 'eu-north-1', 'ap-northeast-1']
+
+profile_name = 'cloudtoolbox'
+region_name = 'us-east-1'
+
+# Create a session using the specified profile
+session = boto3.Session(profile_name=profile_name)
+
+
+
+common_regions = ['us-east-2', 'eu-central-1', 'ap-southeast-2']
 
 def create_vpc(region_name, c):
     vpcs = {}
     # Create an EC2 client
-    ec2 = boto3.client('ec2', region_name=region_name)
+    ec2 = session.client('ec2', region_name=region_name)
     vpcs['region_name'] = region_name
     response = ec2.describe_availability_zones()
     zone_names = [zone['ZoneName'] for zone in response['AvailabilityZones']]
@@ -178,8 +187,8 @@ def create_vpc(region_name, c):
 def create_peering(vpc1, vpc2):
     region_name_1 = vpc1['region_name']
     region_name_2 = vpc2['region_name']
-    ec2_client_1 = boto3.client('ec2', region_name=region_name_1)
-    ec2_client_2 = boto3.client('ec2', region_name=region_name_2)
+    ec2_client_1 = session.client('ec2', region_name=region_name_1)
+    ec2_client_2 = session.client('ec2', region_name=region_name_2)
 
     # specify the IDs of the VPCs that we want to connect
     vpc_id_1 = vpc1['VpcId']
@@ -263,7 +272,7 @@ def create_peering(vpc1, vpc2):
     add_route_to_peering(vpc_id_1, route_table_id_2, destination_cidr_block_1, peering_connection_id, region_name_2)
 
 def add_route_to_peering(vpc_id, route_table_id, destination_cidr_block, peering_connection_id, region_name):
-    ec2 = boto3.client('ec2', region_name=region_name)
+    ec2 = session.client('ec2', region_name=region_name)
     response = ec2.create_route(
         DestinationCidrBlock=destination_cidr_block,
         RouteTableId=route_table_id,
