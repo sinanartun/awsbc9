@@ -1,3 +1,7 @@
 import sys
+import json
 def handler(event, context):
-    return 'Hello from AWS Lambda using Python' + sys.version + '!'
+    return {
+        'statusCode': 200,
+        'body': json.dumps('Hello from Lambda!')
+    }
