@@ -15,14 +15,14 @@ logger.add(
 )
 
 profile_name = 'cloudtoolbox'
-region_name = 'us-east-1'
+# region_name = 'us-east-1'
 
 # Create a session using the specified profile
 session = boto3.Session(profile_name=profile_name)
 
 
 
-common_regions = ['us-east-2', 'eu-central-1', 'ap-southeast-2']
+common_regions = ['us-west-1', 'eu-north-1',  'eu-central-1']
 
 def create_vpc(region_name, c):
     vpcs = {}
