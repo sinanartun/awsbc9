@@ -1,4 +1,6 @@
-FROM python:3.12.4
+FROM python:3.9.19-slim
+ENV NAME MyContainer
 WORKDIR /app
 COPY . .
-CMD ["python", "main.py"]
+ENTRYPOINT ["python"]
+CMD ["main.py"]
