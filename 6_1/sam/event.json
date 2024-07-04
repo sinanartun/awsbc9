@@ -1,0 +1,14 @@
+{
+  "Records": [
+    {
+      "s3": {
+        "bucket": {
+          "name": "awsbc9"
+        },
+        "object": {
+          "key": "story.mp4"
+        }
+      }
+    }
+  ]
+}

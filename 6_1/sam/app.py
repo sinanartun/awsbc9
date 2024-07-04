@@ -8,8 +8,12 @@ from urllib.parse import unquote_plus
 # Initialize the S3 client
 s3 = boto3.client('s3', region_name='eu-north-1')
 
-# Check if a CUDA-enabled GPU is available (Lambda containers do not support GPU, so using CPU)
+# Ensure torch uses the CPU
 device = "cpu"
+torch.backends.cudnn.enabled = False
+os.environ["TORCH_DEVICE"] = "cpu"
+os.environ["FORCE_CPU"] = "1"
+os.environ["USE_CUDA"] = "0"
 
 # Load the Whisper model
 model = whisper.load_model("small", device=device)
@@ -23,8 +27,8 @@ def format_timestamp(seconds):
 
 def handler(event, context):
     # Extract bucket and object key from the event
-    bucket = event.get('bucket', 'awsbc9')
-    key = event.get('key', 'story.mp4')
+    bucket = event['Records'][0]['s3']['bucket']['name']
+    key = unquote_plus(event['Records'][0]['s3']['object']['key'])
     
     download_path = f'/tmp/{os.path.basename(key)}'
     upload_path = f'/tmp/{os.path.splitext(os.path.basename(key))[0]}.srt'
@@ -58,3 +62,23 @@ def handler(event, context):
         'statusCode': 200,
         'body': json.dumps('Subtitle file created and uploaded successfully!')
     }
+
+# For local testing
+if __name__ == "__main__":
+    event = {
+        "Records": [
+            {
+                "s3": {
+                    "bucket": {
+                        "name": "awsbc9"
+                    },
+                    "object": {
+                        "key": "story.mp4"
+                    }
+                }
+            }
+        ]
+    }
+    context = {}
+    result = handler(event, context)
+    print(result)

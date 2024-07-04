@@ -10,6 +10,9 @@ RUN pip install torch boto3
 # Install Whisper from GitHub
 RUN pip install git+https://github.com/openai/whisper.git
 
+# Download the Whisper model during the build process
+RUN python -c "import whisper; whisper.load_model('small')"
+
 # Copy the function code
 COPY app.py ${LAMBDA_TASK_ROOT}
 

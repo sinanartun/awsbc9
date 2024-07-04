@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+
+Resources:
+  TranscribeBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: "awsbc9"
+
+  WhisperTranscribeFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: app.handler
+      Runtime: python3.12
+      CodeUri: .
+      MemorySize: 4096
+      Timeout: 300
+      Architectures:
+        - x86_64  # This specifies the amd64 architecture
+      Environment:
+        Variables:
+          BUCKET_NAME: "awsbc9"
+      Policies:
+        - S3FullAccess
+      Events:
+        TranscribeEvent:
+          Type: S3
+          Properties:
+            Bucket: !Ref TranscribeBucket
+            Events: s3:ObjectCreated:*
+
+Outputs:
+  WhisperTranscribeFunctionArn:
+    Description: "ARN of the WhisperTranscribe Lambda Function"
+    Value: !GetAtt WhisperTranscribeFunction.Arn
