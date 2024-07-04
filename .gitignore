@@ -128,3 +128,18 @@ Thumbs.db
 
 # Windows
 Desktop.ini
+<<<<<<< HEAD
+=======
+
+# Terraform
+**/.terraform/
+**/.terraform.lock.hcl
+**/*.tfstate
+**/*.tfstate.*
+**/crash.log
+**/override.tf
+**/override.tf.json
+**/*_override.tf
+**/*_override.tf.json
+**/terraform.tfvars
+>>>>>>> eacf8ce (up)
