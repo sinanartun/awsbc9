@@ -1,0 +1,397 @@
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+ <= read (data resources)
+
+Terraform will perform the following actions:
+
+  # module.iam.aws_iam_policy.lambda_sqs_policy will be created
+  + resource "aws_iam_policy" "lambda_sqs_policy" {
+      + arn              = (known after apply)
+      + attachment_count = (known after apply)
+      + description      = "IAM policy for Lambda to send and receive messages from SQS"
+      + id               = (known after apply)
+      + name             = "lambda_execution_role-sqs-policy"
+      + name_prefix      = (known after apply)
+      + path             = "/"
+      + policy           = (known after apply)
+      + policy_id        = (known after apply)
+      + tags_all         = (known after apply)
+    }
+
+  # module.iam.aws_iam_role.this will be created
+  + resource "aws_iam_role" "this" {
+      + arn                   = (known after apply)
+      + assume_role_policy    = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action    = "sts:AssumeRole"
+                      + Effect    = "Allow"
+                      + Principal = {
+                          + Service = "lambda.amazonaws.com"
+                        }
+                      + Sid       = ""
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + create_date           = (known after apply)
+      + force_detach_policies = false
+      + id                    = (known after apply)
+      + managed_policy_arns   = (known after apply)
+      + max_session_duration  = 3600
+      + name                  = "lambda_execution_role"
+      + name_prefix           = (known after apply)
+      + path                  = "/"
+      + tags                  = {
+          + "Name" = "lambda_execution_role"
+        }
+      + tags_all              = {
+          + "Name" = "lambda_execution_role"
+        }
+      + unique_id             = (known after apply)
+
+      + inline_policy (known after apply)
+    }
+
+  # module.iam.aws_iam_role_policy_attachment.default["arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"] will be created
+  + resource "aws_iam_role_policy_attachment" "default" {
+      + id         = (known after apply)
+      + policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+      + role       = "lambda_execution_role"
+    }
+
+  # module.iam.aws_iam_role_policy_attachment.lambda_sqs_policy_attachment will be created
+  + resource "aws_iam_role_policy_attachment" "lambda_sqs_policy_attachment" {
+      + id         = (known after apply)
+      + policy_arn = (known after apply)
+      + role       = "lambda_execution_role"
+    }
+
+  # module.lambda.data.archive_file.lambda_zip[0] will be read during apply
+  # (depends on a resource or a module with changes pending)
+ <= data "archive_file" "lambda_zip" {
+      + id                  = (known after apply)
+      + output_base64sha256 = (known after apply)
+      + output_base64sha512 = (known after apply)
+      + output_md5          = (known after apply)
+      + output_path         = "modules/lambda/code/step1/lambda_function.zip"
+      + output_sha          = (known after apply)
+      + output_sha256       = (known after apply)
+      + output_sha512       = (known after apply)
+      + output_size         = (known after apply)
+      + source_file         = "modules/lambda/code/step1/lambda_function.py"
+      + type                = "zip"
+    }
+
+  # module.lambda.data.archive_file.lambda_zip[1] will be read during apply
+  # (depends on a resource or a module with changes pending)
+ <= data "archive_file" "lambda_zip" {
+      + id                  = (known after apply)
+      + output_base64sha256 = (known after apply)
+      + output_base64sha512 = (known after apply)
+      + output_md5          = (known after apply)
+      + output_path         = "modules/lambda/code/step3/lambda_function.zip"
+      + output_sha          = (known after apply)
+      + output_sha256       = (known after apply)
+      + output_sha512       = (known after apply)
+      + output_size         = (known after apply)
+      + source_file         = "modules/lambda/code/step3/lambda_function.py"
+      + type                = "zip"
+    }
+
+  # module.lambda.aws_lambda_event_source_mapping.sqs_trigger[0] will be created
+  + resource "aws_lambda_event_source_mapping" "sqs_trigger" {
+      + enabled                       = true
+      + event_source_arn              = (known after apply)
+      + function_arn                  = (known after apply)
+      + function_name                 = (known after apply)
+      + id                            = (known after apply)
+      + last_modified                 = (known after apply)
+      + last_processing_result        = (known after apply)
+      + maximum_record_age_in_seconds = (known after apply)
+      + maximum_retry_attempts        = (known after apply)
+      + parallelization_factor        = (known after apply)
+      + state                         = (known after apply)
+      + state_transition_reason       = (known after apply)
+      + uuid                          = (known after apply)
+
+      + amazon_managed_kafka_event_source_config (known after apply)
+
+      + self_managed_kafka_event_source_config (known after apply)
+    }
+
+  # module.lambda.aws_lambda_event_source_mapping.sqs_trigger[1] will be created
+  + resource "aws_lambda_event_source_mapping" "sqs_trigger" {
+      + enabled                       = true
+      + event_source_arn              = (known after apply)
+      + function_arn                  = (known after apply)
+      + function_name                 = (known after apply)
+      + id                            = (known after apply)
+      + last_modified                 = (known after apply)
+      + last_processing_result        = (known after apply)
+      + maximum_record_age_in_seconds = (known after apply)
+      + maximum_retry_attempts        = (known after apply)
+      + parallelization_factor        = (known after apply)
+      + state                         = (known after apply)
+      + state_transition_reason       = (known after apply)
+      + uuid                          = (known after apply)
+
+      + amazon_managed_kafka_event_source_config (known after apply)
+
+      + self_managed_kafka_event_source_config (known after apply)
+    }
+
+  # module.lambda.aws_lambda_function.this[0] will be created
+  + resource "aws_lambda_function" "this" {
+      + architectures                  = (known after apply)
+      + arn                            = (known after apply)
+      + code_sha256                    = (known after apply)
+      + filename                       = "modules/lambda/code/step1/lambda_function.zip"
+      + function_name                  = "step1"
+      + handler                        = "lambda_function.lambda_handler"
+      + id                             = (known after apply)
+      + invoke_arn                     = (known after apply)
+      + last_modified                  = (known after apply)
+      + memory_size                    = 128
+      + package_type                   = "Zip"
+      + publish                        = false
+      + qualified_arn                  = (known after apply)
+      + qualified_invoke_arn           = (known after apply)
+      + reserved_concurrent_executions = -1
+      + role                           = (known after apply)
+      + runtime                        = "python3.12"
+      + signing_job_arn                = (known after apply)
+      + signing_profile_version_arn    = (known after apply)
+      + skip_destroy                   = false
+      + source_code_hash               = (known after apply)
+      + source_code_size               = (known after apply)
+      + tags                           = {
+          + "Name" = "step1"
+        }
+      + tags_all                       = {
+          + "Name" = "step1"
+        }
+      + timeout                        = 60
+      + version                        = (known after apply)
+
+      + environment {
+          + variables = (known after apply)
+        }
+
+      + ephemeral_storage (known after apply)
+
+      + logging_config (known after apply)
+
+      + tracing_config (known after apply)
+    }
+
+  # module.lambda.aws_lambda_function.this[1] will be created
+  + resource "aws_lambda_function" "this" {
+      + architectures                  = (known after apply)
+      + arn                            = (known after apply)
+      + code_sha256                    = (known after apply)
+      + filename                       = "modules/lambda/code/step3/lambda_function.zip"
+      + function_name                  = "step3"
+      + handler                        = "lambda_function.lambda_handler"
+      + id                             = (known after apply)
+      + invoke_arn                     = (known after apply)
+      + last_modified                  = (known after apply)
+      + memory_size                    = 128
+      + package_type                   = "Zip"
+      + publish                        = false
+      + qualified_arn                  = (known after apply)
+      + qualified_invoke_arn           = (known after apply)
+      + reserved_concurrent_executions = -1
+      + role                           = (known after apply)
+      + runtime                        = "python3.12"
+      + signing_job_arn                = (known after apply)
+      + signing_profile_version_arn    = (known after apply)
+      + skip_destroy                   = false
+      + source_code_hash               = (known after apply)
+      + source_code_size               = (known after apply)
+      + tags                           = {
+          + "Name" = "step3"
+        }
+      + tags_all                       = {
+          + "Name" = "step3"
+        }
+      + timeout                        = 60
+      + version                        = (known after apply)
+
+      + ephemeral_storage (known after apply)
+
+      + logging_config (known after apply)
+
+      + tracing_config (known after apply)
+    }
+
+  # module.lambda.null_resource.zip_lambda[0] will be created
+  + resource "null_resource" "zip_lambda" {
+      + id       = (known after apply)
+      + triggers = {
+          + "python_file" = "e76e01b7227117f52781eb3ad4d74f9b"
+        }
+    }
+
+  # module.lambda.null_resource.zip_lambda[1] will be created
+  + resource "null_resource" "zip_lambda" {
+      + id       = (known after apply)
+      + triggers = {
+          + "python_file" = "92d26a8f318f11fe4db8e64933d97de6"
+        }
+    }
+
+  # module.sqs.aws_sqs_queue.this will be created
+  + resource "aws_sqs_queue" "this" {
+      + arn                               = (known after apply)
+      + content_based_deduplication       = false
+      + deduplication_scope               = (known after apply)
+      + delay_seconds                     = 0
+      + fifo_queue                        = false
+      + fifo_throughput_limit             = (known after apply)
+      + id                                = (known after apply)
+      + kms_data_key_reuse_period_seconds = (known after apply)
+      + max_message_size                  = 262144
+      + message_retention_seconds         = 3600
+      + name                              = "step2"
+      + name_prefix                       = (known after apply)
+      + policy                            = (known after apply)
+      + receive_wait_time_seconds         = 0
+      + redrive_allow_policy              = (known after apply)
+      + redrive_policy                    = (known after apply)
+      + sqs_managed_sse_enabled           = (known after apply)
+      + tags                              = {
+          + "Environment" = "dev"
+          + "ManagedBy"   = "Terraform"
+        }
+      + tags_all                          = {
+          + "Environment" = "dev"
+          + "ManagedBy"   = "Terraform"
+        }
+      + url                               = (known after apply)
+      + visibility_timeout_seconds        = 65
+    }
+
+  # module.vpc.aws_subnet.public[0] will be created
+  + resource "aws_subnet" "public" {
+      + arn                                            = (known after apply)
+      + assign_ipv6_address_on_creation                = false
+      + availability_zone                              = (known after apply)
+      + availability_zone_id                           = (known after apply)
+      + cidr_block                                     = "10.0.0.0/24"
+      + enable_dns64                                   = false
+      + enable_resource_name_dns_a_record_on_launch    = false
+      + enable_resource_name_dns_aaaa_record_on_launch = false
+      + id                                             = (known after apply)
+      + ipv6_cidr_block_association_id                 = (known after apply)
+      + ipv6_native                                    = false
+      + map_public_ip_on_launch                        = true
+      + owner_id                                       = (known after apply)
+      + private_dns_hostname_type_on_launch            = (known after apply)
+      + tags                                           = {
+          + "Name" = "public_subnet_a"
+        }
+      + tags_all                                       = {
+          + "Name" = "public_subnet_a"
+        }
+      + vpc_id                                         = (known after apply)
+    }
+
+  # module.vpc.aws_subnet.public[1] will be created
+  + resource "aws_subnet" "public" {
+      + arn                                            = (known after apply)
+      + assign_ipv6_address_on_creation                = false
+      + availability_zone                              = (known after apply)
+      + availability_zone_id                           = (known after apply)
+      + cidr_block                                     = "10.0.1.0/24"
+      + enable_dns64                                   = false
+      + enable_resource_name_dns_a_record_on_launch    = false
+      + enable_resource_name_dns_aaaa_record_on_launch = false
+      + id                                             = (known after apply)
+      + ipv6_cidr_block_association_id                 = (known after apply)
+      + ipv6_native                                    = false
+      + map_public_ip_on_launch                        = true
+      + owner_id                                       = (known after apply)
+      + private_dns_hostname_type_on_launch            = (known after apply)
+      + tags                                           = {
+          + "Name" = "public_subnet_b"
+        }
+      + tags_all                                       = {
+          + "Name" = "public_subnet_b"
+        }
+      + vpc_id                                         = (known after apply)
+    }
+
+  # module.vpc.aws_subnet.public[2] will be created
+  + resource "aws_subnet" "public" {
+      + arn                                            = (known after apply)
+      + assign_ipv6_address_on_creation                = false
+      + availability_zone                              = (known after apply)
+      + availability_zone_id                           = (known after apply)
+      + cidr_block                                     = "10.0.2.0/24"
+      + enable_dns64                                   = false
+      + enable_resource_name_dns_a_record_on_launch    = false
+      + enable_resource_name_dns_aaaa_record_on_launch = false
+      + id                                             = (known after apply)
+      + ipv6_cidr_block_association_id                 = (known after apply)
+      + ipv6_native                                    = false
+      + map_public_ip_on_launch                        = true
+      + owner_id                                       = (known after apply)
+      + private_dns_hostname_type_on_launch            = (known after apply)
+      + tags                                           = {
+          + "Name" = "public_subnet_c"
+        }
+      + tags_all                                       = {
+          + "Name" = "public_subnet_c"
+        }
+      + vpc_id                                         = (known after apply)
+    }
+
+  # module.vpc.aws_vpc.main will be created
+  + resource "aws_vpc" "main" {
+      + arn                                  = (known after apply)
+      + cidr_block                           = "10.0.0.0/16"
+      + default_network_acl_id               = (known after apply)
+      + default_route_table_id               = (known after apply)
+      + default_security_group_id            = (known after apply)
+      + dhcp_options_id                      = (known after apply)
+      + enable_dns_hostnames                 = (known after apply)
+      + enable_dns_support                   = true
+      + enable_network_address_usage_metrics = (known after apply)
+      + id                                   = (known after apply)
+      + instance_tenancy                     = "default"
+      + ipv6_association_id                  = (known after apply)
+      + ipv6_cidr_block                      = (known after apply)
+      + ipv6_cidr_block_network_border_group = (known after apply)
+      + main_route_table_id                  = (known after apply)
+      + owner_id                             = (known after apply)
+      + tags                                 = {
+          + "Name" = "main_vpc"
+        }
+      + tags_all                             = {
+          + "Name" = "main_vpc"
+        }
+    }
+
+Plan: 15 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + lambda_function_arns  = [
+      + (known after apply),
+      + (known after apply),
+    ]
+  + lambda_function_names = [
+      + "step1",
+      + "step3",
+    ]
+  + lambda_role_arn       = (known after apply)
+  + public_subnets        = [
+      + (known after apply),
+      + (known after apply),
+      + (known after apply),
+    ]
+  + vpc_id                = (known after apply)

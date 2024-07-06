@@ -1,46 +1,27 @@
-variable "region" {
-  description = "The AWS region to deploy in"
+variable "lambda_functions" {
+  description = "A list of Lambda function configurations"
+  type = list(object({
+    function_name          = string
+    handler                = string
+    runtime                = string
+    source_file            = string
+    source_zip             = string
+    timeout                = number
+    environment_variables  = map(string)
+  }))
+}
+
+variable "lambda_role_arn" {
+  description = "The ARN of the IAM role to attach to the Lambda functions"
   type        = string
 }
 
-variable "function_name" {
-  description = "The name of the Lambda function"
+variable "os_type" {
+  description = "The operating system type"
   type        = string
 }
 
-variable "runtime" {
-  description = "The runtime environment for the Lambda function"
-  type        = string
-}
-
-variable "role_arn" {
-  description = "The ARN of the IAM role that Lambda assumes when it executes your function"
-  type        = string
-}
-
-variable "handler" {
-  description = "The function entrypoint in your code"
-  type        = string
-}
-
-variable "filename" {
-  description = "The path to the deployment package for the Lambda function"
-  type        = string
-}
-
-variable "environment_variables" {
-  description = "A map of environment variables to pass to the Lambda function"
-  type        = map(string)
-  default     = {}
-}
-
-variable "tags" {
-  description = "A map of tags to assign to the resource"
-  type        = map(string)
-  default     = {}
-}
-
-variable "api_gateway_arn" {
-  description = "The ARN of the API Gateway that will trigger the Lambda function"
+variable "sqs_queue_arn" {
+  description = "The ARN of the SQS queue"
   type        = string
 }

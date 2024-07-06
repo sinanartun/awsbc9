@@ -1,9 +1,9 @@
-output "lambda_function_name" {
-  description = "The name of the Lambda function"
-  value       = aws_lambda_function.this.function_name
+output "lambda_function_arns" {
+  description = "The ARNs of the Lambda functions"
+  value       = [for lambda in aws_lambda_function.this : lambda.arn]
 }
 
-output "lambda_function_arn" {
-  description = "The ARN of the Lambda function"
-  value       = aws_lambda_function.this.arn
+output "lambda_function_names" {
+  description = "The names of the Lambda functions"
+  value       = [for lambda in aws_lambda_function.this : lambda.function_name]
 }
