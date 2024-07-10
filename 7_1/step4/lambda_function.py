@@ -37,11 +37,6 @@ def write_srt_file(subtitles, file_path):
         file.write(srt.compose(subtitles))
 
 # Function to convert text to speech and save as audio file
-def text_to_speech(text, lang, output_path):
-    tts = gTTS(text, lang=lang)
-    tts.save(output_path)
-
-# Function to convert SRT subtitles to an audio file
 def srt_to_audio(subtitles, lang, output_path, video_id):
     combined_audio = AudioSegment.empty()
     for subtitle in subtitles:
@@ -56,10 +51,10 @@ def srt_to_audio(subtitles, lang, output_path, video_id):
 def lambda_handler(event, context):
     bucket_name = event['bucket_name']
     video_id = event['video_id']
-    model_name = 'Helsinki-NLP/opus-mt-en-tr'  # Model for English to Turkish translation
+    model_name = 'Helsinki-NLP/opus-tatoeba-en-tr'  # Correct model for English to Turkish translation
     input_srt_path = f'/tmp/{video_id}.srt'
     tgt_lang = 'tr'
-    translated_srt_path = f'/tmp/{video_id}_en.srt'
+    translated_srt_path = f'/tmp/{video_id}_tr.srt'
     output_audio_path = f'/tmp/{video_id}.aac'
     srt_key = f'{video_id}.srt'
 
@@ -87,9 +82,7 @@ def lambda_handler(event, context):
 
     return {
         'statusCode': 200,
-        'body': {
-            'srt_key': translated_srt_key,
-            'audio_key': output_audio_key,
-            'video_id': video_id
-        }
+        'srt_key': translated_srt_key,
+        'audio_key': output_audio_key,
+        'video_id': video_id
     }
