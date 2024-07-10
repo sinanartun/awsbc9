@@ -19,7 +19,7 @@ def read_srt_file(file_path):
 # Function to translate text to the target language
 def translate_text(text, model_name):
     tokenizer = MarianTokenizer.from_pretrained(model_name, save_directory='/tmp/cache', cache_dir='/tmp/cache')
-    model = MarianMTModel.from_pretrained(model_name, save_directory='/tmp/cache')
+    model = MarianMTModel.from_pretrained(model_name, save_directory='/tmp/cache', cache_dir='/tmp/cache')
     translated = model.generate(**tokenizer(text, return_tensors="pt", padding=True))
     translated_text = [tokenizer.decode(t, skip_special_tokens=True) for t in translated]
     return translated_text[0]
