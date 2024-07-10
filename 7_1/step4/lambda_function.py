@@ -81,7 +81,7 @@ def lambda_handler(event, context):
 
     # Upload the translated SRT file and the audio file back to S3
     translated_srt_key = srt_key.replace('.srt', f'_{tgt_lang}.srt')
-    output_audio_key = srt_key.replace('.srt', f'_{tgt_lang}.aac')
+    output_audio_key = srt_key.replace('.srt', f'_{tgt_lang}.mp3')
 
     s3.upload_file(translated_srt_path, bucket_name, translated_srt_key)
     s3.upload_file(output_audio_path, bucket_name, output_audio_key)
