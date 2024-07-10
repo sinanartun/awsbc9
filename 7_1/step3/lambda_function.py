@@ -43,7 +43,7 @@ def lambda_handler(event, context):
     audio_key = event['audio_key']
     video_id = os.path.splitext(os.path.basename(audio_key))[0]
     # Define local paths
-    local_audio_path = f"/tmp/{video_id}.aac"
+    local_audio_path = f"/tmp/{video_id}.mp3"
     local_srt_path = f"/tmp/{video_id}.srt"
     
     # Download the video file from S3

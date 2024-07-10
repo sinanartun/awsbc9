@@ -47,11 +47,11 @@ def srt_to_audio(subtitles, lang, output_path, video_id):
     combined_audio = AudioSegment.empty()
     for subtitle in subtitles:
         tts = gTTS(subtitle.content, lang=lang)
-        temp_audio_path = f'/tmp/{video_id}_temp.aac'
+        temp_audio_path = f'/tmp/{video_id}_temp.mp3'
         tts.save(temp_audio_path)
         audio_segment = AudioSegment.from_mp3(temp_audio_path)
         combined_audio += audio_segment
-    combined_audio.export(output_path, format='aac')
+    combined_audio.export(output_path, format='mp3')
 
 # Lambda handler function
 def lambda_handler(event, context):
@@ -61,7 +61,7 @@ def lambda_handler(event, context):
     input_srt_path = f'/tmp/{video_id}.srt'
     tgt_lang = 'tr'
     translated_srt_path = f'/tmp/{video_id}_tr.srt'
-    output_audio_path = f'/tmp/{video_id}.aac'
+    output_audio_path = f'/tmp/{video_id}.mp3'
     srt_key = f'{video_id}.srt'
 
     # Download the SRT file from S3
