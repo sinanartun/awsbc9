@@ -5,9 +5,13 @@ from transformers import MarianMTModel, MarianTokenizer
 from gtts import gTTS
 from pydub import AudioSegment
 
+# Initialize S3 client
 s3 = boto3.client('s3')
-if not os.path.exists('/tmp/cache'):
-    os.makedirs('/tmp/cache')
+
+# Ensure the /tmp/cache directory exists
+cache_dir = '/tmp/cache'
+if not os.path.exists(cache_dir):
+    os.makedirs(cache_dir)
 
 # Function to read and parse the SRT file
 def read_srt_file(file_path):
@@ -17,18 +21,18 @@ def read_srt_file(file_path):
     return subtitles
 
 # Function to translate text to the target language
-def translate_text(text, model_name):
-    tokenizer = MarianTokenizer.from_pretrained(model_name, save_directory='/tmp/cache', cache_dir='/tmp/cache')
-    model = MarianMTModel.from_pretrained(model_name, save_directory='/tmp/cache', cache_dir='/tmp/cache')
+def translate_text(text, model_name, cache_dir):
+    tokenizer = MarianTokenizer.from_pretrained(model_name, cache_dir=cache_dir)
+    model = MarianMTModel.from_pretrained(model_name, cache_dir=cache_dir)
     translated = model.generate(**tokenizer(text, return_tensors="pt", padding=True))
     translated_text = [tokenizer.decode(t, skip_special_tokens=True) for t in translated]
     return translated_text[0]
 
 # Function to translate subtitles
-def translate_subtitles(subtitles, model_name):
+def translate_subtitles(subtitles, model_name, cache_dir):
     translated_subtitles = []
     for subtitle in subtitles:
-        translated_content = translate_text(subtitle.content, model_name)
+        translated_content = translate_text(subtitle.content, model_name, cache_dir)
         subtitle.content = translated_content
         translated_subtitles.append(subtitle)
     return translated_subtitles
@@ -49,7 +53,7 @@ def srt_to_audio(subtitles, lang, output_path, video_id):
         combined_audio += audio_segment
     combined_audio.export(output_path, format='aac')
 
-
+# Lambda handler function
 def lambda_handler(event, context):
     bucket_name = event['bucket_name']
     video_id = event['video_id']
@@ -66,7 +70,7 @@ def lambda_handler(event, context):
     # Step 1: Read and translate the SRT file
     print("Reading and translating SRT file...")
     subtitles = read_srt_file(input_srt_path)
-    translated_subtitles = translate_subtitles(subtitles, model_name)
+    translated_subtitles = translate_subtitles(subtitles, model_name, cache_dir)
     write_srt_file(translated_subtitles, translated_srt_path)
     print(f"Translated SRT file saved to {translated_srt_path}")
 
