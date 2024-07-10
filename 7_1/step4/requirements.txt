@@ -4,3 +4,4 @@ pydub
 boto3
 srt
 torch
+sentencepiece
