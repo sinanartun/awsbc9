@@ -6,6 +6,8 @@ from gtts import gTTS
 from pydub import AudioSegment
 
 s3 = boto3.client('s3')
+if not os.path.exists('/tmp/cache'):
+    os.makedirs('/tmp/cache')
 
 # Function to read and parse the SRT file
 def read_srt_file(file_path):
@@ -16,7 +18,7 @@ def read_srt_file(file_path):
 
 # Function to translate text to the target language
 def translate_text(text, model_name):
-    tokenizer = MarianTokenizer.from_pretrained(model_name)
+    tokenizer = MarianTokenizer.from_pretrained(model_name, cache_dir='/tmp/cache')
     model = MarianMTModel.from_pretrained(model_name)
     translated = model.generate(**tokenizer(text, return_tensors="pt", padding=True))
     translated_text = [tokenizer.decode(t, skip_special_tokens=True) for t in translated]
