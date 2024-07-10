@@ -90,5 +90,6 @@ def lambda_handler(event, context):
         'statusCode': 200,
         'srt_key': translated_srt_key,
         'audio_key': output_audio_key,
-        'video_id': video_id
+        'video_id': video_id,
+        'bucket_name': bucket_name
     }
