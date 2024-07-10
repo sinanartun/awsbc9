@@ -69,5 +69,6 @@ def lambda_handler(event, context):
     
     return {
         'statusCode': 200,
-        'video_id': video_id
+        'video_id': video_id,
+        'bucket_name': bucket_name
     }
