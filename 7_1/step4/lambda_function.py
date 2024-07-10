@@ -49,7 +49,7 @@ def srt_to_audio(subtitles, lang, output_path, video_id):
         tts = gTTS(subtitle.content, lang=lang)
         temp_audio_path = f'/tmp/{video_id}_temp.aac'
         tts.save(temp_audio_path)
-        audio_segment = AudioSegment.from_aac(temp_audio_path)
+        audio_segment = AudioSegment.from_mp3(temp_audio_path)
         combined_audio += audio_segment
     combined_audio.export(output_path, format='aac')
 
