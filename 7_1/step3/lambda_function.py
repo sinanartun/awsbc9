@@ -40,8 +40,8 @@ def create_srt_content(result):
 def lambda_handler(event, context):
     # Extract bucket name and file key from the event
     bucket_name = event['bucket_name']
-    audio_key = event['audio_key']
-    video_id = os.path.splitext(os.path.basename(audio_key))[0]
+    video_id = event['video_id']
+    audio_key = f"{video_id}.mp3"
     # Define local paths
     local_audio_path = f"/tmp/{video_id}.mp3"
     local_srt_path = f"/tmp/{video_id}.srt"
