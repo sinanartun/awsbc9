@@ -1,0 +1,6 @@
+transformers
+gtts
+pydub
+boto3
+srt
+torch
