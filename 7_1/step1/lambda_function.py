@@ -16,6 +16,7 @@ def lambda_handler(event, context):
         return {
             'statusCode': 200,
             'video_key':file_name,
+            'bucket_name' : bucket_name,
             'body': json.dumps('Download and upload completed')
         }
     except Exception as e:
