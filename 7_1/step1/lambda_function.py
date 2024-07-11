@@ -15,6 +15,7 @@ def lambda_handler(event, context):
         upload_to_s3(save_path, bucket_name, file_name)
         return {
             'statusCode': 200,
+            'video_key':file_name,
             'body': json.dumps('Download and upload completed')
         }
     except Exception as e:
