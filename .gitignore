@@ -128,8 +128,6 @@ Thumbs.db
 
 # Windows
 Desktop.ini
-<<<<<<< HEAD
-=======
 
 # Terraform
 **/.terraform/
@@ -142,4 +140,3 @@ Desktop.ini
 **/*_override.tf
 **/*_override.tf.json
 **/terraform.tfvars
->>>>>>> eacf8ce (up)
