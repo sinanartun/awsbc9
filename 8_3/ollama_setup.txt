@@ -1,0 +1,21 @@
+ollama
+
+sudo systemctl edit ollama.service
+
+[Service]
+Environment="OLLAMA_HOST=0.0.0.0:8080"
+Environment="OLLAMA_ORIGINS=*"
+
+sudo systemctl daemon-reload
+sudo systemctl restart ollama.service
+sudo systemctl status ollama.service
+
+systemctl show ollama.service | grep Environment
+
+nano .bashrc
+
+export OLLAMA_HOST=0.0.0.0:8080
+sudo su
+su ubuntu
+
+echo $OLLAMA_HOST
