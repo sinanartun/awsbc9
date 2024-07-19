@@ -7,6 +7,7 @@ app = FastAPI()
 # Configure CORS
 origins = [
     "https://twitter.com",
+    "https://x.com",
     "http://localhost",
     "http://localhost:8000",
     # Add other origins as needed
